@@ -22,11 +22,12 @@ function engTextChanged(){
     const engText=document.getElementById("engText").value;
     const ucEngText=engText.toUpperCase();
     let quoteCnt=0;
+    let missingCharSeen=false;
 
     for (let index = 0; index <ucEngText.length; index++) {
         const character=ucEngText[index];
         let glyphName; 
-
+        
         if (character === "\"" ) {
             quoteCnt++;
             glyphName=(quoteCnt%2 === 0)? "quote-close":"quote-open";
@@ -35,6 +36,7 @@ function engTextChanged(){
                 glyphName=puncDict[character];
             } else {
                 glyphName=character;
+                missingCharSeen = missingCharSeen || !(/^[A-Z]|[0-9]$/.test(glyphName));
             }
         }
         // invariant: glyphName holds the name of the glyph to be used
@@ -51,16 +53,26 @@ function engTextChanged(){
                 balEl.appendChild(imgElBl);
             }
         }
-        
-
     }
-
+    
+    
+    displayMissingCharAlert(missingCharSeen);
+   
+ 
 }
 
+function displayMissingCharAlert(showAlert) {
+    const alertEl=document.getElementById("MissingCharAlert");
+    const alertStyle=alertEl.style;
+    if (showAlert){
+        alertStyle.display="block";
+    } else {
+        alertStyle.display="none";
+    }
+}
 
 function clearEl(el){
     while (el.lastElementChild){
         el.lastElementChild.remove();
-
     }
 }

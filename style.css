@@ -17,3 +17,9 @@ body {
     width: 100%;
     height: 5em;
 }
+
+.alert {
+    background-color: #ff0;
+    color: red;
+    display: none;
+}
